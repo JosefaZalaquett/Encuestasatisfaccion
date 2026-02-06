@@ -150,20 +150,30 @@
   const yesBtn = document.getElementById("yesBtn");
   const ghostText = document.getElementById("ghostText");
 
+  let mobileShrink = 1; // 👈 para hacerlo cada vez más chico en celular
+
   function moveNo() {
     noBtn.style.position = "fixed";
     noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
     noBtn.style.top = Math.random() * (window.innerHeight - 80) + "px";
   }
 
-  // NO imposible en celular
+  // 📱 NO imposible en celular + se achica
   noBtn.addEventListener("touchstart", e => {
     e.preventDefault();
     ghostText.textContent = "CORTALAAAAAAAAAAAAAAAAA BASTA";
+    mobileShrink *= 0.85; // 👈 cada vez más chico 😂
+    noBtn.style.transform = `scale(${mobileShrink})`;
     moveNo();
   });
 
-  // SÍ
+  // 💻 NO se mueve en computador
+  noBtn.addEventListener("mouseenter", () => {
+    ghostText.textContent = "JAJA nop 😈";
+    moveNo();
+  });
+
+  // ✅ SÍ
   yesBtn.onclick = () => {
     document.getElementById("start").classList.remove("active");
     document.getElementById("celebration").classList.add("active");
