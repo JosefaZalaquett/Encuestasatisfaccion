@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>San Valentín 💌</title>
 
   <!-- EmailJS -->
@@ -103,6 +104,33 @@
       width: 320px;
       margin-top: 20px;
     }
+
+    /* ====== AJUSTES PARA CELULAR ====== */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 26px;
+        line-height: 1.4;
+        padding: 18px;
+      }
+
+      img {
+        width: 280px;
+      }
+
+      .buttons {
+        gap: 25px;
+        margin-top: 20px;
+      }
+
+      button {
+        font-size: 22px;
+        padding: 18px 42px;
+      }
+
+      #celebration img {
+        width: 360px;
+      }
+    }
   </style>
 </head>
 
@@ -168,7 +196,9 @@
 
     yesBtn.addEventListener("click", () => {
       emailjs.send("service_j1dn5nl", "template_7gi02sw", {
-        respuesta: "DIJO QUE SÍ 💖"
+        answer: "DIJO QUE SÍ 💖",
+        date: new Date().toLocaleString("es-CL"),
+        email: "jojizalaquett10@gmail.com"
       });
 
       document.getElementById("start").classList.remove("active");
