@@ -54,29 +54,30 @@
     h1 {
       color: #a1005c;
       margin-bottom: 25px;
-      background: rgba(255,255,255,0.75);
-      padding: 15px;
-      border-radius: 20px;
-      max-width: 900px;
+      background: rgba(255,255,255,0.8);
+      padding: 20px;
+      border-radius: 25px;
+      max-width: 950px;
+      font-size: 28px;
     }
 
     img {
-      width: 220px;
+      width: 260px;
       margin-bottom: 30px;
       border-radius: 20px;
     }
 
     .buttons {
       display: flex;
-      gap: 50px;
+      gap: 60px;
       position: relative;
-      margin-top: 10px;
+      margin-top: 15px;
     }
 
     button {
-      font-size: 24px;
-      padding: 15px 40px;
-      border-radius: 30px;
+      font-size: 26px;
+      padding: 20px 46px;
+      border-radius: 40px;
       border: none;
       cursor: pointer;
     }
@@ -90,45 +91,50 @@
     #noBtn {
       background: #cfcfcf;
       position: absolute;
-      right: -140px;
+      right: -160px;
       top: 0;
     }
 
     .ghost {
       margin-top: 25px;
-      font-size: 18px;
+      font-size: 22px;
       color: #444;
     }
 
     #celebration img {
-      width: 320px;
+      width: 360px;
       margin-top: 20px;
     }
 
-    /* ====== AJUSTES PARA CELULAR ====== */
+    /* ====== CELULAR (GIGANTE) ====== */
     @media (max-width: 768px) {
+
       h1 {
-        font-size: 26px;
-        line-height: 1.4;
-        padding: 18px;
+        font-size: 36px;       /* 🔥 TEXTO GIGANTE */
+        line-height: 1.5;
+        padding: 26px;
       }
 
       img {
-        width: 280px;
+        width: 340px;          /* Snoopy ENORME */
       }
 
       .buttons {
-        gap: 25px;
-        margin-top: 20px;
+        gap: 35px;
+        margin-top: 30px;
       }
 
       button {
-        font-size: 22px;
-        padding: 18px 42px;
+        font-size: 30px;       /* Botones enormes */
+        padding: 26px 56px;
+      }
+
+      .ghost {
+        font-size: 26px;
       }
 
       #celebration img {
-        width: 360px;
+        width: 420px;          /* burbuja gigante */
       }
     }
   </style>
@@ -175,8 +181,8 @@
     let activated = false;
 
     function moveNo() {
-      const x = Math.random() * (window.innerWidth - 150);
-      const y = Math.random() * (window.innerHeight - 120);
+      const x = Math.random() * (window.innerWidth - 180);
+      const y = Math.random() * (window.innerHeight - 140);
       noBtn.style.left = x + "px";
       noBtn.style.top = y + "px";
     }
@@ -204,11 +210,11 @@
       document.getElementById("start").classList.remove("active");
       document.getElementById("celebration").classList.add("active");
 
-      const end = Date.now() + 4500;
+      const end = Date.now() + 5000;
       (function frame() {
         confetti({
-          particleCount: 6,
-          spread: 80,
+          particleCount: 7,
+          spread: 90,
           origin: { x: Math.random(), y: 0 }
         });
         if (Date.now() < end) requestAnimationFrame(frame);
