@@ -10,14 +10,56 @@
 
   <style>
     * { box-sizing: border-box; font-family: 'Baloo 2', system-ui, sans-serif; }
-
     body { margin: 0; overflow: hidden; background: #ffe6f0; }
 
+    /* ===== CARTA ===== */
+    #envelope-container {
+      position: fixed; inset: 0;
+      display: flex; justify-content: center; align-items: center;
+      background: #ffe6f0; z-index: 999;
+    }
+
+    .envelope {
+      width: 300px; height: 210px;
+      background: #ffb3d9; border-radius: 12px;
+      position: relative; cursor: pointer;
+    }
+
+    .envelope::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #ff8fc7, #ffb3d9);
+      clip-path: polygon(0 0,100% 0,50% 60%);
+      transform-origin: top;
+      transition: transform 1s ease;
+    }
+
+    .envelope.open::before { transform: rotateX(180deg); }
+
+    .letter {
+      position: absolute; bottom: 10px; left: 50%;
+      transform: translateX(-50%);
+      width: 260px; height: 170px;
+      background: #fff; border-radius: 10px;
+      display: flex; justify-content: center; align-items: center;
+      font-size: 18px; color: #a1005c;
+      transition: transform 1.2s ease;
+    }
+
+    .envelope.open .letter {
+      transform: translate(-50%, -140%);
+    }
+
+    /* ===== APP ===== */
     .screen {
       width: 100vw; height: 100vh;
-      display: none; justify-content: center; align-items: center;
-      flex-direction: column; text-align: center; padding: 16px;
+      display: none;
+      justify-content: center; align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 16px;
     }
+
     .active { display: flex; }
 
     #start { background: url("corazones.png") center/cover no-repeat; }
@@ -38,8 +80,8 @@
 
     button {
       font-size: 18px; padding: 10px 24px;
-      border-radius: 26px; border: none; cursor: pointer;
-      position: absolute;
+      border-radius: 26px; border: none;
+      cursor: pointer; position: absolute;
     }
 
     #yesBtn { background: #ff5fa2; color: #fff; left: 0; }
@@ -51,6 +93,13 @@
 
 <body>
 
+<!-- CARTA -->
+<div id="envelope-container">
+  <div class="envelope" id="envelope">
+    <div class="letter">💌 Tienes una carta 💌</div>
+  </div>
+</div>
+
 <!-- FORMSPREE DATA -->
 <form id="formspreeForm" style="display:none;">
   <input type="hidden" name="respuesta" value="DIJO QUE SÍ 💖">
@@ -58,7 +107,7 @@
 </form>
 
 <!-- INICIO -->
-<div class="screen active" id="start">
+<div class="screen" id="start">
   <h1>
     oliii &lt;3333 <br>
     ¿q piemsas de pasar juntitos el 13/14 d febrero? <br>
@@ -85,6 +134,17 @@
 </div>
 
 <script>
+  /* ===== CARTA ===== */
+  const envelope = document.getElementById("envelope");
+  envelope.onclick = () => {
+    envelope.classList.add("open");
+    setTimeout(() => {
+      document.getElementById("envelope-container").style.display = "none";
+      document.getElementById("start").classList.add("active");
+    }, 1300);
+  };
+
+  /* ===== BOTONES ===== */
   const noBtn = document.getElementById("noBtn");
   const yesBtn = document.getElementById("yesBtn");
   const ghostText = document.getElementById("ghostText");
@@ -95,13 +155,14 @@
     noBtn.style.top = Math.random() * (window.innerHeight - 80) + "px";
   }
 
+  // NO imposible en celular
   noBtn.addEventListener("touchstart", e => {
     e.preventDefault();
     ghostText.textContent = "nop 😈";
     moveNo();
   });
 
-  /* SÍ */
+  // SÍ
   yesBtn.onclick = () => {
     document.getElementById("start").classList.remove("active");
     document.getElementById("celebration").classList.add("active");
@@ -112,7 +173,7 @@
       if (Date.now() < end) requestAnimationFrame(frame);
     })();
 
-    // ⏱️ ENVIAR EMAIL DESPUÉS DE 40s
+    // ⏱️ enviar mail 40s después
     setTimeout(() => {
       fetch("https://formspree.io/f/mlgwedap", {
         method: "POST",
@@ -126,5 +187,5 @@
   };
 </script>
 
-</bo
-
+</body>
+</html>
