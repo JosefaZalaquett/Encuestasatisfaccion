@@ -13,65 +13,31 @@
 
     body { margin: 0; overflow: hidden; background: #ffe6f0; }
 
-    /* CARTA */
-    #envelope-container {
-      position: fixed; inset: 0;
-      display: flex; justify-content: center; align-items: center;
-      background: #ffe6f0; z-index: 999;
-    }
-
-    .envelope {
-      width: 300px; height: 210px;
-      background: #ffb3d9; border-radius: 12px;
-      position: relative; cursor: pointer;
-    }
-
-    .envelope::before {
-      content: ""; position: absolute; inset: 0;
-      background: linear-gradient(135deg, #ff8fc7, #ffb3d9);
-      clip-path: polygon(0 0,100% 0,50% 60%);
-      transform-origin: top; transition: transform 1s ease;
-    }
-
-    .envelope.open::before { transform: rotateX(180deg); }
-
-    .letter {
-      position: absolute; bottom: 10px; left: 50%;
-      transform: translateX(-50%);
-      width: 260px; height: 170px;
-      background: #fff; border-radius: 10px;
-      display: flex; justify-content: center; align-items: center;
-      font-size: 18px; color: #a1005c;
-      transition: transform 1.2s ease;
-    }
-
-    .envelope.open .letter { transform: translate(-50%, -140%); }
-
-    /* APP */
     .screen {
       width: 100vw; height: 100vh;
       display: none; justify-content: center; align-items: center;
       flex-direction: column; text-align: center; padding: 16px;
     }
-
     .active { display: flex; }
 
-    #start { background: url("corazones.png") center/cover; }
-    #celebration { background: url("cora.gif") center/cover; }
+    #start { background: url("corazones.png") center/cover no-repeat; }
+    #celebration { background: url("cora.gif") center/cover no-repeat; }
 
     h1 {
       background: rgba(255,255,255,.85);
-      padding: 14px; border-radius: 20px;
-      font-size: 22px; color: #a1005c;
+      padding: 14px;
+      border-radius: 20px;
+      font-size: 20px;
+      color: #a1005c;
       margin-bottom: 16px;
     }
 
-    img { width: 200px; margin-bottom: 16px; }
+    img { width: 170px; margin-bottom: 16px; }
 
     .buttons { position: relative; width: 240px; height: 80px; }
 
     button {
-      font-size: 20px; padding: 12px 28px;
+      font-size: 18px; padding: 10px 24px;
       border-radius: 26px; border: none; cursor: pointer;
       position: absolute;
     }
@@ -80,34 +46,19 @@
     #noBtn { background: #cfcfcf; right: 0; }
 
     .ghost { margin-top: 14px; font-size: 16px; color: #444; }
-
-    /* SOLO CELULAR */
-    @media (max-width: 768px) {
-      h1 { font-size: 18px; }
-      img { width: 170px; }
-      button { font-size: 18px; padding: 10px 24px; }
-    }
   </style>
 </head>
 
 <body>
 
-<!-- CARTA -->
-<div id="envelope-container">
-  <div class="envelope" id="envelope">
-    <div class="letter">💌 Tienes una carta 💌</div>
-  </div>
-</div>
-
-<!-- FORMSPREE -->
-<form id="formspreeForm" action="https://formspree.io/f/mlgwedap" method="POST" style="display:none;">
+<!-- FORMSPREE DATA -->
+<form id="formspreeForm" style="display:none;">
   <input type="hidden" name="respuesta" value="DIJO QUE SÍ 💖">
   <input type="hidden" name="fecha">
-  <input type="hidden" name="_redirect" value="false">
 </form>
 
 <!-- INICIO -->
-<div class="screen" id="start">
+<div class="screen active" id="start">
   <h1>
     oliii &lt;3333 <br>
     ¿q piemsas de pasar juntitos el 13/14 d febrero? <br>
@@ -128,73 +79,30 @@
 <div class="screen" id="celebration">
   <h1>
     okiiiiiiiiiiii 🥰🥰🥰 <br>
-    espero no hayas intentado poner NO &gt;:( <br>
-    así como k tenias opsion 😌
+    sabía que dirías que sí 😌💘
   </h1>
   <img src="burbuja.gif">
 </div>
 
 <script>
-  const isMobile = window.innerWidth < 768;
-
-  /* CARTA */
-  envelope.onclick = () => {
-    envelope.classList.add("open");
-    setTimeout(() => {
-      document.getElementById("envelope-container").style.display = "none";
-      document.getElementById("start").classList.add("active");
-    }, 1300);
-  };
-
   const noBtn = document.getElementById("noBtn");
   const yesBtn = document.getElementById("yesBtn");
   const ghostText = document.getElementById("ghostText");
-  const form = document.getElementById("formspreeForm");
 
-  let escapeMode = false;
-
-  function teleportNo() {
+  function moveNo() {
     noBtn.style.position = "fixed";
     noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
     noBtn.style.top = Math.random() * (window.innerHeight - 80) + "px";
   }
 
-  /* NO — COMPUTADOR */
-  if (!isMobile) {
-    noBtn.addEventListener("mouseenter", () => {
-      if (escapeMode) teleportNo();
-    });
-
-    noBtn.addEventListener("click", () => {
-      if (!escapeMode) {
-        escapeMode = true;
-        ghostText.textContent = "nop 😈 ahora sí corre";
-      } else {
-        noBtn.style.display = "none";
-        ghostText.textContent = "ok ya, imposible 🙄";
-      }
-    });
-  }
-
-  /* NO — CELULAR (IMPOSSIBLE MODE) */
-  if (isMobile) {
-    noBtn.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      ghostText.textContent = "JAJA nop 😈";
-      teleportNo();
-    });
-
-    noBtn.addEventListener("click", () => {
-      noBtn.style.display = "none";
-      ghostText.textContent = "ok ya, imposible 🙄";
-    });
-  }
+  noBtn.addEventListener("touchstart", e => {
+    e.preventDefault();
+    ghostText.textContent = "nop 😈";
+    moveNo();
+  });
 
   /* SÍ */
   yesBtn.onclick = () => {
-    form.querySelector('[name="fecha"]').value = new Date().toLocaleString("es-CL");
-    form.submit();
-
     document.getElementById("start").classList.remove("active");
     document.getElementById("celebration").classList.add("active");
 
@@ -203,8 +111,20 @@
       confetti({ particleCount: 6, spread: 80, origin: { x: Math.random(), y: 0 } });
       if (Date.now() < end) requestAnimationFrame(frame);
     })();
+
+    // ⏱️ ENVIAR EMAIL DESPUÉS DE 40s
+    setTimeout(() => {
+      fetch("https://formspree.io/f/mlgwedap", {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: JSON.stringify({
+          respuesta: "DIJO QUE SÍ 💖",
+          fecha: new Date().toLocaleString("es-CL")
+        })
+      });
+    }, 40000);
   };
 </script>
 
-</body>
-</html>
+</bo
+
