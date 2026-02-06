@@ -129,20 +129,15 @@
       border-radius: 30px;
       border: none;
       cursor: pointer;
-      position: absolute;
     }
 
     #yesBtn {
       background: #ff5fa2;
       color: white;
-      left: 0;
-      top: 0;
     }
 
     #noBtn {
       background: #cfcfcf;
-      right: 0;
-      top: 0;
     }
 
     .ghost {
@@ -207,7 +202,7 @@
     }, 1300);
   };
 
-  /* NO BUTTON LOGIC */
+  /* BOTONES */
   const noBtn = document.getElementById("noBtn");
   const yesBtn = document.getElementById("yesBtn");
   const ghostText = document.getElementById("ghostText");
@@ -215,15 +210,17 @@
 
   let escapeMode = false;
 
-  function moveNoFast() {
-    noBtn.style.left = Math.random() * (window.innerWidth - 120) + "px";
-    noBtn.style.top = Math.random() * (window.innerHeight - 80) + "px";
+  function moveNoAnywhere() {
+    noBtn.style.left = Math.random() * (window.innerWidth - 140) + "px";
+    noBtn.style.top = Math.random() * (window.innerHeight - 100) + "px";
   }
 
   noBtn.addEventListener("click", () => {
     if (!escapeMode) {
       escapeMode = true;
-      ghostText.textContent = "nop 😈 intenta de nuevo";
+      ghostText.textContent = "nop 😈 ahora sí corre";
+      noBtn.style.position = "fixed"; // 🔥 CLAVE
+      moveNoAnywhere();
     } else {
       noBtn.style.display = "none";
       ghostText.textContent = "ok ya, imposible 🙄";
@@ -232,8 +229,8 @@
 
   noBtn.addEventListener("mouseenter", () => {
     if (escapeMode) {
-      moveNoFast();
       ghostText.textContent = "upss casi!!! 😏";
+      moveNoAnywhere();
     }
   });
 
@@ -248,7 +245,11 @@
 
     const end = Date.now() + 4500;
     (function frame() {
-      confetti({ particleCount: 6, spread: 80, origin: { x: Math.random(), y: 0 } });
+      confetti({
+        particleCount: 6,
+        spread: 80,
+        origin: { x: Math.random(), y: 0 }
+      });
       if (Date.now() < end) requestAnimationFrame(frame);
     })();
   };
@@ -256,3 +257,4 @@
 
 </body>
 </html>
+
