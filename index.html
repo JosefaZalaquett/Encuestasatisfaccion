@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>San Valentín 💌</title>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Comic Sans MS', cursive;
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .screen {
+      width: 100vw;
+      height: 100vh;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .active {
+      display: flex;
+    }
+
+    /* INICIO */
+    #start {
+      background-image: url("corazones.png");
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* CELEBRACIÓN */
+    #celebration {
+      background-image: url("cora.gif");
+      background-size: cover;
+      background-position: center;
+    }
+
+    h1 {
+      color: #a1005c;
+      margin-bottom: 25px;
+      background: rgba(255,255,255,0.75);
+      padding: 15px;
+      border-radius: 20px;
+      max-width: 900px;
+    }
+
+    img {
+      width: 220px;
+      margin-bottom: 30px;
+      border-radius: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 50px;
+      position: relative;
+      margin-top: 10px;
+    }
+
+    button {
+      font-size: 24px;
+      padding: 15px 40px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #yesBtn {
+      background: #ff5fa2;
+      color: white;
+      z-index: 2;
+    }
+
+    #noBtn {
+      background: #cfcfcf;
+      position: absolute;
+      right: -140px;
+      top: 0;
+    }
+
+    .ghost {
+      margin-top: 25px;
+      font-size: 18px;
+      color: #444;
+    }
+
+    #celebration img {
+      width: 320px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- INICIO -->
+  <div class="screen active" id="start">
+    <h1>
+      oliii &lt;3333 <br>
+      ¿q piemsas de pasar juntitos el 13/14 d febrero? <br>
+      conmigo claramente, esta es la invitación formal 💌
+    </h1>
+
+    <img src="snoopy.jpg" alt="snoopy">
+
+    <div class="buttons">
+      <button id="yesBtn">SÍ 💖</button>
+      <button id="noBtn">NO 😒</button>
+    </div>
+
+    <div class="ghost" id="ghostText"></div>
+  </div>
+
+  <!-- CELEBRACIÓN -->
+  <div class="screen" id="celebration">
+    <h1>
+      okiiiiiiiiiiii 🥰🥰🥰 <br>
+      espero no hayas intentado poner NO &gt;:( <br>
+      así como k tenias opsion 😌
+    </h1>
+
+    <img src="burbuja.gif" alt="burbuja">
+  </div>
+
+  <script>
+    emailjs.init("v8RGA-fgmnkC00-tyA");
+
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const ghostText = document.getElementById("ghostText");
+
+    let activated = false;
+
+    function moveNo() {
+      const x = Math.random() * (window.innerWidth - 150);
+      const y = Math.random() * (window.innerHeight - 120);
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    function activateEscape() {
+      if (!activated) {
+        activated = true;
+        ghostText.textContent = "intenta dnovo o ghosting 👻";
+      } else {
+        ghostText.textContent = "upss casi!!! 😏";
+      }
+      moveNo();
+    }
+
+    noBtn.addEventListener("mouseenter", activateEscape);
+    noBtn.addEventListener("click", activateEscape);
+
+    yesBtn.addEventListener("click", () => {
+      emailjs.send("service_j1dn5nl", "template_7gi02sw", {
+        respuesta: "DIJO QUE SÍ 💖"
+      });
+
+      document.getElementById("start").classList.remove("active");
+      document.getElementById("celebration").classList.add("active");
+
+      const end = Date.now() + 4500;
+      (function frame() {
+        confetti({
+          particleCount: 6,
+          spread: 80,
+          origin: { x: Math.random(), y: 0 }
+        });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+    });
+  </script>
+
+</body>
+</html>
